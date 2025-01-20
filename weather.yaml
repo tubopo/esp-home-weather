@@ -1,0 +1,51 @@
+esphome:
+  name: outdoor-weather
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+# Enable logging
+logger:
+
+#  Sync to local time
+time:
+ - platform: sntp
+   id: sntp_time
+   timezone: Europe/Minsk
+   servers: 
+    - "by.pool.ntp.org"
+    - "0.pool.ntp.org"
+   timezone:  
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# Deep Sleep Configuration
+deep_sleep:
+  run_duration: 60s
+  sleep_duration: 30min  # Sleep for 30 minutes
+
+# I2C Configuration for BME280
+i2c:
+  sda: D2
+  scl: D1
+  scan: True
+
+# BME280 Sensor Configuration
+sensor:
+  - platform: bme280_i2c
+    temperature:
+      name: "BME280 Temperature"
+      id: bme_temp
+    humidity:
+      name: "BME280 Humidity"
+      id: bme_humidity
+    pressure:
+      name: "BME280 Pressure"
+      id: bme_pressure
+    address: 0x76
+    update_interval: 60s
