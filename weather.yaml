@@ -10,16 +10,13 @@ wifi:
 # Enable logging
 logger:
 
-#  Sync to local time
-time:
- - platform: sntp
-   id: sntp_time
-   timezone: Europe/Minsk
-   servers: 
-    - "by.pool.ntp.org"
-    - "0.pool.ntp.org"
-   timezone:  
+# MQTT Client Configuration
+mqtt:
+  broker: '192.168.88.88'
+  username: !secret mqtt_username
+  password: !secret mqtt_password
 
+# OTA Updates
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -27,7 +24,7 @@ ota:
 # Deep Sleep Configuration
 deep_sleep:
   run_duration: 60s
-  sleep_duration: 30min  # Sleep for 30 minutes
+  sleep_duration: 30min
 
 # I2C Configuration for BME280
 i2c:
@@ -49,3 +46,27 @@ sensor:
       id: bme_pressure
     address: 0x76
     update_interval: 60s
+    on_value:
+      - mqtt.publish:
+          topic: 'weather_station/temperature'
+          payload: !lambda 'return to_string(x);'
+      - mqtt.publish:
+          topic: 'weather_station/humidity'
+          payload: !lambda 'return to_string(x);'
+      - mqtt.publish:
+          topic: 'weather_station/pressure'
+          payload: !lambda 'return to_string(x);' 
+
+# Battery voltage
+  - platform: adc
+    pin: A0
+    name: "Battery Voltage"
+    id: battery_voltage
+    update_interval: 60s
+    attenuation: 11db
+    filters:
+      - multiply: 3.3
+    on_value:
+      - mqtt.publish:
+          topic: 'weather_station/battery_voltage'
+          payload: !lambda 'return to_string(x);'
