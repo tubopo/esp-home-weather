@@ -11,7 +11,7 @@ services:
       - "9001:9001"
     volumes:
       - ${MNT_DATA}/Configs/Mosquitto:/mosquitto/config
-      - ${MNT_DATA}/Mosquitto/data:/mosquitto/data
-      - ${MNT_DATA}/Mosquitto/log:/mosquitto/log
+      - ${MNT_METRIC_DATA}/Mosquitto/data:/mosquitto/data
+      - ${MNT_METRIC_DATA}/Mosquitto/log:/mosquitto/log
     restart: always
 

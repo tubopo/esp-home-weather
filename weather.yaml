@@ -13,8 +13,6 @@ logger:
 # MQTT Client Configuration
 mqtt:
   broker: '192.168.88.88'
-  username: !secret mqtt_username
-  password: !secret mqtt_password
 
 # OTA Updates
 ota:
@@ -46,16 +44,6 @@ sensor:
       id: bme_pressure
     address: 0x76
     update_interval: 60s
-    on_value:
-      - mqtt.publish:
-          topic: 'weather_station/temperature'
-          payload: !lambda 'return to_string(x);'
-      - mqtt.publish:
-          topic: 'weather_station/humidity'
-          payload: !lambda 'return to_string(x);'
-      - mqtt.publish:
-          topic: 'weather_station/pressure'
-          payload: !lambda 'return to_string(x);' 
 
 # Battery voltage
   - platform: adc
@@ -63,10 +51,5 @@ sensor:
     name: "Battery Voltage"
     id: battery_voltage
     update_interval: 60s
-    attenuation: 11db
     filters:
       - multiply: 3.3
-    on_value:
-      - mqtt.publish:
-          topic: 'weather_station/battery_voltage'
-          payload: !lambda 'return to_string(x);'
