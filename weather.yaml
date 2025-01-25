@@ -12,7 +12,7 @@ logger:
 
 # MQTT Client Configuration
 mqtt:
-  broker: '192.168.88.88'
+  broker: "192.168.88.88"
   username: !secret mqtt_username
   password: !secret mqtt_password
   discovery: false # push data only
@@ -48,16 +48,16 @@ sensor:
     address: 0x76
     update_interval: 60s
 
-# Battery voltage
+  # Battery voltage
   - platform: adc
     pin: A0
     name: "Battery Voltage"
     id: battery
     update_interval: 60s
     filters:
-      - multiply: 3.3
+      - multiply: 5.51
 
-# Wifi signal
+  # Wifi signal
   - platform: wifi_signal
     name: "WiFi Signal Sensor"
     id: wifi_db
