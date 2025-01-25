@@ -1,5 +1,5 @@
 esphome:
-  name: outdoor-weather
+  name: weather
   platform: ESP8266
   board: d1_mini
 
@@ -13,6 +13,9 @@ logger:
 # MQTT Client Configuration
 mqtt:
   broker: '192.168.88.88'
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  discovery: false # push data only
 
 # OTA Updates
 ota:
@@ -35,13 +38,13 @@ sensor:
   - platform: bme280_i2c
     temperature:
       name: "BME280 Temperature"
-      id: bme_temp
+      id: temp
     humidity:
       name: "BME280 Humidity"
-      id: bme_humidity
+      id: humidity
     pressure:
       name: "BME280 Pressure"
-      id: bme_pressure
+      id: pressure
     address: 0x76
     update_interval: 60s
 
@@ -49,7 +52,13 @@ sensor:
   - platform: adc
     pin: A0
     name: "Battery Voltage"
-    id: battery_voltage
+    id: battery
     update_interval: 60s
     filters:
       - multiply: 3.3
+
+# Wifi signal
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    id: wifi_db
+    update_interval: 60s
