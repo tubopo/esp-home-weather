@@ -13,6 +13,7 @@ wifi:
     static_ip: 192.168.88.40
     gateway: 192.168.88.88
     subnet: 255.255.255.0
+  restart_timeout: 60s
 
 # Enable logging, report on MQTT when error
 logger:
@@ -31,13 +32,7 @@ mqtt:
   username: !secret mqtt_username
   password: !secret mqtt_password
   discovery: false # push data only
-  # Birth and Will messages to indicate online/offline status
-  birth_message:
-    topic: weather/sensor/status
-    payload: online
-  will_message:
-    topic: weather/sensor/status
-    payload: offline
+  reboot_timeout: 60s
 
 # OTA Updates 
 ota:
@@ -46,7 +41,7 @@ ota:
 
 # Deep Sleep Configuration
 deep_sleep:
-  run_duration: 60s
+  run_duration: 65s
   sleep_duration: 15min
 
 # I2C Configuration for BME280
