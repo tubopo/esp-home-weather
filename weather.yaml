@@ -3,6 +3,7 @@ esphome:
   platform: ESP8266
   board: d1_mini
 
+# Enable WIFI with a custom IP to speed up connection
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -13,8 +14,16 @@ wifi:
     gateway: 192.168.88.88
     subnet: 255.255.255.0
 
-# Enable logging
+# Enable logging, report on MQTT when error
 logger:
+  level: INFO
+  on_message:
+    level: ERROR
+    then:
+      - mqtt.publish:
+          topic: weather/log/error
+          payload: !lambda |-
+            return to_string(level) + ", tag: " + tag + " message: " + message;
 
 # MQTT Client Configuration
 mqtt:
@@ -22,8 +31,15 @@ mqtt:
   username: !secret mqtt_username
   password: !secret mqtt_password
   discovery: false # push data only
+  # Birth and Will messages to indicate online/offline status
+  birth_message:
+    topic: weather/sensor/status
+    payload: online
+  will_message:
+    topic: weather/sensor/status
+    payload: offline
 
-# OTA Updates
+# OTA Updates 
 ota:
   - platform: esphome
     password: !secret ota_password
