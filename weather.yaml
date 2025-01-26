@@ -13,7 +13,7 @@ wifi:
     static_ip: 192.168.88.40
     gateway: 192.168.88.88
     subnet: 255.255.255.0
-  restart_timeout: 60s
+  reboot_timeout: 60s
 
 # Enable logging, report on MQTT when error
 logger:
