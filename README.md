@@ -25,3 +25,11 @@ esphome run weather.yaml
 ```bash
 esphome logs --topic weather/log weather.yaml
 ```
+
+### Status LED
+
+Blink slowly (about every second) when a warning is active. Warnings are active when for example reading a sensor value fails temporarily, the WiFi/MQTT connections are disrupted, or if the native API component is included but no client is connected.
+
+Blink quickly (multiple times per second) when an error is active. Errors indicate that ESPHome has found an error while setting up. In most cases, ESPHome will still try to recover from the error and continue with all other operations.
+
+Stay off otherwise.
