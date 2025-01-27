@@ -71,7 +71,7 @@ sensor:
     update_interval: 10s
     accuracy_decimals: 3
     filters:
-      - multiply: 5.1817
+      - multiply: 4.05
 
   # Wifi signal
   - platform: wifi_signal
