@@ -13,3 +13,15 @@
 
 + esp8266 Wemos D1 Mini Pro
 + Bosch BME280 sensor
+
+## Install
+
+```bash
+esphome run weather.yaml
+```
+
+## Log
+
+```bash
+esphome logs --topic weather/log weather.yaml
+```
