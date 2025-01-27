@@ -13,18 +13,10 @@ wifi:
     static_ip: 192.168.88.40
     gateway: 192.168.88.88
     subnet: 255.255.255.0
-  reboot_timeout: 60s
+  reboot_timeout: 10s
 
-# Enable logging, report on MQTT when error
 logger:
-  level: VERBOSE
-  on_message:
-    level: WARN
-    then:
-      - mqtt.publish:
-          topic: weather/log
-          payload: !lambda |-
-            return to_string(level) + ", tag: " + tag + " message: " + message;
+  level: ERROR
 
 # MQTT Client Configuration
 mqtt:
@@ -32,13 +24,13 @@ mqtt:
   username: !secret mqtt_username
   password: !secret mqtt_password
   discovery: false # push data only
-  reboot_timeout: 60s
+  reboot_timeout: 10s
   log_topic: weather/log
   birth_message:
-    topic: weather/status
+    topic: weather/sensor/status/state
     payload: online
   will_message:
-    topic: weather/status
+    topic: weather/sensor/status/state
     payload: offline
 
 # OTA Updates 
@@ -48,14 +40,13 @@ ota:
 
 # Deep Sleep Configuration
 deep_sleep:
-  run_duration: 65s
+  run_duration: 10s
   sleep_duration: 15min
 
 # I2C Configuration for BME280
 i2c:
   sda: D2
   scl: D1
-  scan: True
 
 # BME280 Sensor Configuration
 sensor:
@@ -70,27 +61,20 @@ sensor:
       name: "BME280 Pressure"
       id: pressure
     address: 0x76
-    update_interval: 60s
+    update_interval: 10s
 
   # Battery voltage
   - platform: adc
     pin: A0
     name: "Battery Voltage"
     id: battery
-    update_interval: 60s
+    update_interval: 10s
+    accuracy_decimals: 3
     filters:
-      - multiply: 5.18
+      - multiply: 5.1817
 
   # Wifi signal
   - platform: wifi_signal
     name: "WiFi Signal Sensor"
     id: wifi_db
-    update_interval: 60s
-
-light:
-  - platform: status_led
-    id: status
-    name: "Switch state"
-    pin: 
-      number: GPIO2
-      inverted: true
+    update_interval: 10s
