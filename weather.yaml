@@ -27,7 +27,7 @@ wifi:
   reboot_timeout: 30s
 
 logger:
-  level: DEBUG
+  level: WARN
 
 # MQTT Client Configuration
 mqtt:
@@ -39,10 +39,10 @@ mqtt:
   log_topic: weather/log
   birth_message:
     topic: weather/sensor/status/state
-    payload: online
+    payload: 1 # online
   will_message:
     topic: weather/sensor/status/state
-    payload: offline
+    payload: 0 # offline
 
 # OTA Updates 
 ota:
@@ -52,7 +52,7 @@ ota:
 # Deep Sleep Configuration
 deep_sleep:
   run_duration: 10s
-  sleep_duration: 10min
+  sleep_duration: 15min
 
 # I2C Configuration for BME280
 i2c:
@@ -92,6 +92,7 @@ sensor:
   - platform: uptime
     name: "ESP Uptime"
     type: seconds
+    accuracy_decimals: 3 
 
 binary_sensor:
   - platform: status
