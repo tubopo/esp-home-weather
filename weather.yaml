@@ -4,12 +4,13 @@ esphome:
     priority: 600
     then:
       - output.turn_on: bme280_power
-      - delay: 500ms
-      - component.update: bme280
       - delay: 1s
-      - output.turn_off: bme280_power
+      - component.update: bme280
       - component.update: battery
       - component.update: wifi_db
+  on_shutdown: 
+    then:
+      - output.turn_off: bme280_power
 
 esp8266:
   board: d1_mini
@@ -27,7 +28,7 @@ wifi:
     subnet: 255.255.255.0
 
 logger:
-  level: WARN
+  level: ERROR
 
 # MQTT Client Configuration
 mqtt:
@@ -51,7 +52,7 @@ ota:
 # Deep Sleep Configuration
 deep_sleep:
   run_duration: 10s
-  sleep_duration: 15min
+  sleep_duration: 10min
 
 # I2C Configuration for BME280
 i2c:
