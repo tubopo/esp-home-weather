@@ -4,11 +4,11 @@ esphome:
     priority: 600
     then:
       - output.turn_on: bme280_power
-      - delay: 1s
+      - delay: 500ms
       - component.update: bme280
       - component.update: battery
       - component.update: wifi_db
-  on_shutdown: 
+  on_shutdown:
     then:
       - output.turn_off: bme280_power
 
@@ -82,7 +82,7 @@ sensor:
     update_interval: never
     accuracy_decimals: 3
     filters:
-      - multiply: 5.363
+      - multiply: 5.28
 
   - platform: wifi_signal
     name: "WiFi Signal Sensor"
@@ -93,10 +93,6 @@ sensor:
     name: "ESP Uptime"
     type: seconds
     accuracy_decimals: 3
-
-binary_sensor:
-  - platform: status
-    name: "ESP Status"
 
 status_led:
   pin:
