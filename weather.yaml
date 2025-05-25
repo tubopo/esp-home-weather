@@ -19,13 +19,14 @@ esp8266:
 
 # Enable WIFI with a custom IP to speed up connection
 wifi:
+  # use_address: weather.local
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   fast_connect: true
   power_save_mode: LIGHT
   manual_ip:
-    static_ip: 192.168.88.40
-    gateway: 192.168.88.88
+    static_ip: 192.168.88.52
+    gateway: 192.168.88.1
     subnet: 255.255.255.0
 
 logger:
@@ -33,7 +34,7 @@ logger:
 
 # MQTT Client Configuration
 mqtt:
-  broker: "192.168.88.88"
+  broker: "192.168.88.24"
   username: !secret mqtt_username
   password: !secret mqtt_password
   discovery: false # push data only
